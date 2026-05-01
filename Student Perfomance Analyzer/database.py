@@ -1,22 +1,23 @@
 import sqlite3
 
 def connect():
-    return sqlite3.connect('database.db')
+    return sqlite3.connect("d:/rl-project/Student Perfomance Analyzer/data_base.db")
 
 # creating an cursor,
 
 
-def create_cursor():
+def create_table():
     cnn = connect()
     cursor = cnn.cursor()
         
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS students(
-            id INTEGER PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS students (
             name TEXT,
             marks INTEGER
         )''')
-    return cnn.commit()
+    
+    cnn.commit()
+    cnn.close()
 
 # Now inserting the data in database.db
 
@@ -24,8 +25,7 @@ def stu_data():
     cur = connect()
     cursor = cur.cursor()
     cursor.execute('''
-    INSERT IN students(name,marks) VALUES("",""), 
-    
+    INSERT INTO students(name,marks) VALUES
     ("Aman", 78), ("Riya", 85), ("Rahul", 56), ("Sneha", 92),
     ("Arjun", 33), ("Pooja", 67), ("Karan", 45), ("Neha", 88),
     ("Vikas", 72), ("Simran", 39), ("Ankit", 60), ("Priya", 81),
@@ -33,7 +33,8 @@ def stu_data():
     ("Deepak", 74), ("Kavya", 90), ("Nitin", 52), ("Isha", 66),
     ("Yash", 41) ''')
     
-    return cur.commit()
+    cur.commit()
+    cur.close()
     
 
 # Now adding function which can add students,
@@ -44,6 +45,7 @@ def add_student():
     name = input("Enter Student Name: ")
     marks = input("ENter Student Marks: ")
     cursor.execute(f'''
-    INSERT INTO students(name,marks) VALUES({name},{marks})
+    INSERT INTO students(name,marks) VALUES(?,?)
                    ''')
-    return conn.commit()
+    conn.commit()
+    conn.close()

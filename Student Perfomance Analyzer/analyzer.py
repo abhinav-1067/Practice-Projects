@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import sqlite3
+from database import *
 
 def load_data():
-    return sqlite3.connect('database.db')
+    return sqlite3.connect("d:/rl-project/Student Perfomance Analyzer/data_base.db")
 
 def pass_fail():
     data = load_data()
@@ -11,18 +12,20 @@ def pass_fail():
     cursor = data.cursor()
     
     
-    cursor.execute(f'''
-    SELECT marks FROM students WHERE name="",({name})              
-                   ''')
+    cursor.execute("SELECT marks FROM students WHERE LOWER(name)=LOWER(?)",(name,))
     result = cursor.fetchone()
     
-    if result >= '34':
+    if result is None:
+        print("No Student Found!!")
+        data.close()
+        return
+    
+    marks = result[0]
+    if marks >= 34:
         print(f"{name} Is Passed")
-    elif result < '34':
-        print(f"{name} Is Failed!")
     else:
-        print("Invalid Name !!")
-        
+        print(f"{name} Is Failed!")
+    
 def mean_marks():
     data = load_data()
     cursor = data.cursor()
@@ -33,4 +36,5 @@ def mean_marks():
     
     result = cursor.fetchone()
     
+    data.close()
     return result
