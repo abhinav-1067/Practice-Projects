@@ -31,7 +31,7 @@ def mean_marks():
     cursor = data.cursor()
     
     cursor.execute('''
-    SELECT AVG(marks) FORM students               
+    SELECT AVG(marks) FROM students               
                    ''')
     
     result = cursor.fetchone()

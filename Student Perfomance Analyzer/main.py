@@ -14,6 +14,7 @@ def menu():
     
 def main():
     create_table()
+    insert_default_data()
     
     while True:
         menu()
